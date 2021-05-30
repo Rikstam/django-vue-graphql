@@ -2,7 +2,7 @@
 FROM python:3.9.1-slim-buster
 
 # set working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/backend
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,11 +19,11 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # copy entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+COPY ./entrypoint.sh /usr/src/backend/entrypoint.sh
+RUN chmod +x /usr/src/backend/entrypoint.sh
 
 # add app
 COPY . .
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/backend/entrypoint.sh"]
