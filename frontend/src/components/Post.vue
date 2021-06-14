@@ -17,6 +17,7 @@
 
 <script>
 import AuthorLink from "@/components/AuthorLink";
+import gql from "graphql-tag";
 
 export default {
   name: "Post",
@@ -34,6 +35,36 @@ export default {
         new Date(date)
       );
     },
+  },
+  async created() {
+    const post = await this.$apollo.query({
+      query: gql`
+        query($slug: String!) {
+          postBySlug(slug: $slug) {
+            title
+            subtitle
+            publishDate
+            metaDescription
+            slug
+            body
+            author {
+              user {
+                username
+                firstName
+                lastName
+              }
+            }
+            tags {
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        slug: this.$route.params.slug,
+      },
+    });
+    this.post = post.data.postBySlug;
   },
 };
 </script>
